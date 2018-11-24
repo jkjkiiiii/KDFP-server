@@ -9,19 +9,19 @@ class data():
     def __init__(self,html):
         info={}
         t=etree.HTML(html)
-        info['查验次数']=t.xpath('//span[@id="cycs"]/text()')
-        info['查验时间']=t.xpath('//span[contains(@id,"cysj")]/text()')
-        info['发票头']=t.xpath('//h1[contains(@id,"fpcc_dzfp")]/text()')
-        info['发票代码']=t.xpath('//span[contains(@id,"fpdm_dzfp")]/text()')
-        info['发票号码']=t.xpath('//span[contains(@id,"fphm_dzfp")]/text()')
-        info['开票日期']=t.xpath('//span[contains(@id,"kprq_dzfp")]/text()')
-        info['校验码']=t.xpath('//span[contains(@id,"jym_dzfp")]/text()')
-        info['机器编号']=t.xpath('//span[contains(@id,"sbbh_dzfp")]/text()')
-        info['购买方名称']=t.xpath('//span[contains(@id,"gfmc_dzfp")]/text()')
-        info['密码区']=t.xpath('//td[contains(@id,"password_dzfp")]/text()')
-        info['购买方纳税人识别号']=t.xpath('//span[contains(@id,"gfsbh_dzfp")]/text()')
-        info['购买方地址、电话']=t.xpath('//span[contains(@id,"gfdzdh_dzfp")]/text()')
-        info['购买方开户行及账号']=t.xpath('//span[contains(@id,"gfyhzh_dzfp")]/text()')
+        info['查验次数']=t.xpath('//span[@id="cycs"]/text()')[0]
+        info['查验时间']=t.xpath('//span[contains(@id,"cysj")]/text()')[0]
+        info['发票头']=t.xpath('//h1[contains(@id,"fpcc_dzfp")]/text()')[0]
+        info['发票代码']=t.xpath('//span[contains(@id,"fpdm_dzfp")]/text()')[0]
+        info['发票号码']=t.xpath('//span[contains(@id,"fphm_dzfp")]/text()')[0]
+        info['开票日期']=t.xpath('//span[contains(@id,"kprq_dzfp")]/text()')[0]
+        info['校验码']=t.xpath('//span[contains(@id,"jym_dzfp")]/text()')[0]
+        info['机器编号']=t.xpath('//span[contains(@id,"sbbh_dzfp")]/text()')[0]
+        info['购买方名称']=t.xpath('//span[contains(@id,"gfmc_dzfp")]/text()')[0]
+        info['密码区']=t.xpath('//td[contains(@id,"password_dzfp")]/text()')[0]
+        info['购买方纳税人识别号']=t.xpath('//span[contains(@id,"gfsbh_dzfp")]/text()')[0]
+        info['购买方地址、电话']=t.xpath('//span[contains(@id,"gfdzdh_dzfp")]/text()')[0]
+        info['购买方开户行及账号']=t.xpath('//span[contains(@id,"gfyhzh_dzfp")]/text()')[0]
         #以下项目有多个匹配结果
         service_name=[]
         model=[]
@@ -67,15 +67,15 @@ class data():
             tax.append(item)
         tax.pop()
         info['税额']=tax
-        info['合计金额']=t.xpath('//span[contains(@id,"je_dzfp")]/text()')
-        info['合计税额']=t.xpath('//span[contains(@id,"se_dzfp")]/text()')
-        info['价税合计（大写）']=t.xpath('//span[contains(@id,"jshjdx_dzfp")]/text()')
-        info['价税合计（小写）']=t.xpath('//span[contains(@id,"jshjxx_dzfp")]/text()')
-        info['销售方名称']=t.xpath('//span[contains(@id,"xfmc_dzfp")]/text()')
+        info['合计金额']=t.xpath('//span[contains(@id,"je_dzfp")]/text()')[0]
+        info['合计税额']=t.xpath('//span[contains(@id,"se_dzfp")]/text()')[0]
+        info['价税合计（大写）']=t.xpath('//span[contains(@id,"jshjdx_dzfp")]/text()')[0]
+        info['价税合计（小写）']=t.xpath('//span[contains(@id,"jshjxx_dzfp")]/text()')[0]
+        info['销售方名称']=t.xpath('//span[contains(@id,"xfmc_dzfp")]/text()')[0]
         info['备注']=t.xpath('//span[contains(@id,"bz_dzfp")]/p/text()')
-        info['销售方纳税人识别号']=t.xpath('//span[contains(@id,"xfsbh_dzfp")]/text()')
-        info['销售方地址、电话']=t.xpath('//span[contains(@id,"xfdzdh_dzfp")]/text()')
-        info['销售方开户行及账号']=t.xpath('//span[contains(@id,"xfyhzh_dzfp")]/text()')
+        info['销售方纳税人识别号']=t.xpath('//span[contains(@id,"xfsbh_dzfp")]/text()')[0]
+        info['销售方地址、电话']=t.xpath('//span[contains(@id,"xfdzdh_dzfp")]/text()')[0]
+        info['销售方开户行及账号']=t.xpath('//span[contains(@id,"xfyhzh_dzfp")]/text()')[0]
         self.fphm=info['发票号码'][0]
         self.info=info
     #保存json文件
