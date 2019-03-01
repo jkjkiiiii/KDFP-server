@@ -6,7 +6,6 @@ import demjson
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
-from spider.ticket.data import data
 class confirm:
     def wrong_return (self,browser):
         error="none"
@@ -15,13 +14,12 @@ class confirm:
         error=(browser.find_element_by_xpath('//*[@id="popup_message"]').text)
         browser.find_element_by_xpath('//*[@id="popup_ok"]').click()
         return error
-    def send_yz(self,browser,number):
-        try:
-            pagesource = "None"
+    def send_yz(self,browser,dict):
+        #try:
             error="None"
             yz=browser.find_element_by_xpath('//*[@id="yzm"]')
             yz.clear()
-            yz.send_keys(number)
+            yz.send_keys(dict['verity_code'])
             wait=WebDriverWait(browser,0.5)
             A=False
             try:
@@ -30,8 +28,7 @@ class confirm:
             except:
                 pass
             try:
-                time.sleep(2)
-                browser.switch_to_frame("dialog-body")
+                wait.until(expected_conditions.presence_of_all_elements_located((By.ID,'printfp')))
                 A=True
             except:
                 pass
@@ -45,16 +42,19 @@ class confirm:
                     exits_jsons = demjson.encode(dict_tips)
                     return exits_jsons
                 except:
-                    pagesource=browser.page_source
-                    data_temp=data(str(pagesource))
-                    dict_later=data_temp.info
-                    pic_name='%s%s'%(dict_later['开票日期'],dict_later['校验码'])
-                    path="C:\\Users\\BBfat\\Desktop\\invoice\\spider\\images\\%s.png"%pic_name
+                    #pagesource=browser.page_source
+                    #data_temp=data(str(pagesource))
+                    #dict_later=data_temp.info
+                    dict_later={}
+                    pic_name='%s%s'%(dict['kp_rq'],dict['jy'])
+                    path="C:\\Users\\Administrator\\Desktop\\invoice\\spider\\images\\%s.png"%pic_name
                     browser.get_screenshot_as_file(path)
+                    #im = ImageGrab.grab()
+                    #im.save('C:\\Users\\Administrator\\Desktop\\invoice\\spider\\images\\12.png')
                     dict_later['error']=error
                     dict_later['pic_name']=pic_name
                     #later_jsons = demjson.encode(dict_later)
-                    browser.close()
+                    #browser.close()
                     return dict_later
             else:
                 error=self.wrong_return(browser)
@@ -62,5 +62,5 @@ class confirm:
                 dict_error['error']=error
                 #error_jsons = demjson.encode(dict_error)
                 return dict_error
-        except:
-            return {"error":"查验出错"}
+        #except:
+         #   return {"error":"查验出错"}
