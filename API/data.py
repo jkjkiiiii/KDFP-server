@@ -12,7 +12,11 @@ class Data():
         t=etree.HTML(html)
         info['cycs']=t.xpath('//span[@id="cycs"]/text()')[0]
         info['time']=t.xpath('//span[contains(@id,"cysj")]/text()')[0]
-        info['fplx']=t.xpath('//h1[contains(@id,"fpcc_dzfp")]/text()')[0]
+        fp_lx=t.xpath('//h1[contains(@id,"fpcc_dzfp")]/text()')
+        if fp_lx:
+            info['fplx']=fp_lx[0]
+        else:
+            info['fplx']=t.xpath('//h1[contains(@id,"fpcc_pp")]/text()')[0]
         info['fpdm']=t.xpath('//span[contains(@id,"fpdm_dzfp")]/text()')[0]
         info['fphm']=t.xpath('//span[contains(@id,"fphm_dzfp")]/text()')[0]
         info['kprq']=t.xpath('//span[contains(@id,"kprq_dzfp")]/text()')[0]
