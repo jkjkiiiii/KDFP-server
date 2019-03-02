@@ -12,21 +12,54 @@ class Data():
         t=etree.HTML(html)
         info['cycs']=t.xpath('//span[@id="cycs"]/text()')[0]
         info['time']=t.xpath('//span[contains(@id,"cysj")]/text()')[0]
-        fp_lx=t.xpath('//h1[contains(@id,"fpcc_dzfp")]/text()')
-        if fp_lx:
-            info['fplx']=fp_lx[0]
-        else:
-            info['fplx']=t.xpath('//h1[contains(@id,"fpcc_pp")]/text()')[0]
-        info['fpdm']=t.xpath('//span[contains(@id,"fpdm_dzfp")]/text()')[0]
-        info['fphm']=t.xpath('//span[contains(@id,"fphm_dzfp")]/text()')[0]
-        info['kprq']=t.xpath('//span[contains(@id,"kprq_dzfp")]/text()')[0]
-        info['code']=t.xpath('//span[contains(@id,"jym_dzfp")]/text()')[0]
-        info['num']=t.xpath('//span[contains(@id,"sbbh_dzfp")]/text()')[0]
-        info['gfMc']=t.xpath('//span[contains(@id,"gfmc_dzfp")]/text()')[0]
-        info['mmq']=t.xpath('//td[contains(@id,"password_dzfp")]/text()')[0]
-        info['gfNsrsbh']=t.xpath('//span[contains(@id,"gfsbh_dzfp")]/text()')[0]
-        info['gfContact']=t.xpath('//span[contains(@id,"gfdzdh_dzfp")]/text()')[0]
-        info['gfBank']=t.xpath('//span[contains(@id,"gfyhzh_dzfp")]/text()')[0]
+        name_to_id = {'fplx':'fpcc_',
+                   'fpdm':'fpdm_',
+                   'fphm':'fphm_',
+                   'kprq':'kprq_',
+                   'code':'jym_',
+                   'num':'sbbh_',
+                   'gfMc':'gfmc_',#官方名称
+                   'mmq':'password_',
+                   'gfNsrsbh':'gfsbh_',
+                   'gfContact':'gfdzdh_',
+                   'gfBank':'gfyhzh_',
+                   'goodsamount':'je_',
+                   'taxamount':'se_',
+                   'SUMAMOUNT':'jshjdx_',
+                   'sumamount':'jshjxx_',
+                   'xfMc':'xfmc_',
+                   'xfNsrsbh':"xfsbh_",
+                   'xfContact':"xfdzdh_",
+                   'xfBank':"xfyhzh_"}
+        for name in name_to_id:
+            if name not in ['fplx','mmq']:
+                dzfp = t.xpath('//h1[contains(@id,"{}")]/text()'.format(name_to_id[name]+'dzfp'))
+                if dzfp:
+                    info[name] = dzfp[0]
+                else:
+                    info[name] = t.xpath('//h1[contains(@id,"{}")]/text()'.format(name_to_id[name]+'pp'))[0]
+            elif name == 'fplx':
+                dzfp=t.xpath('//h1[contains(@id,"fpcc_dzfp")]/text()')
+                if dzfp:
+                    info['fplx']=dzfp[0]
+                else:
+                    info['fplx']=t.xpath('//h1[contains(@id,"fpcc_pp")]/text()')[0]
+            elif name == 'mmq':
+                dzfp=t.xpath('//td[contains(@id,"password_dzfp")]/text()')
+                if dzfp:
+                    info['mmq']=dzfp[0]
+                else:
+                    info['mmq']=t.xpath('//td[contains(@id,"password_pp")]/text()')[0]                
+#         info['fpdm']=t.xpath('//span[contains(@id,"fpdm_dzfp")]/text()')[0]
+#         info['fphm']=t.xpath('//span[contains(@id,"fphm_dzfp")]/text()')[0]
+#         info['kprq']=t.xpath('//span[contains(@id,"kprq_dzfp")]/text()')[0]
+#         info['code']=t.xpath('//span[contains(@id,"jym_dzfp")]/text()')[0]
+#         info['num']=t.xpath('//span[contains(@id,"sbbh_dzfp")]/text()')[0]
+#         info['gfMc']=t.xpath('//span[contains(@id,"gfmc_dzfp")]/text()')[0]
+#         info['mmq']=t.xpath('//td[contains(@id,"password_dzfp")]/text()')[0]
+#         info['gfNsrsbh']=t.xpath('//span[contains(@id,"gfsbh_dzfp")]/text()')[0]
+#         info['gfContact']=t.xpath('//span[contains(@id,"gfdzdh_dzfp")]/text()')[0]
+#         info['gfBank']=t.xpath('//span[contains(@id,"gfyhzh_dzfp")]/text()')[0]
         #以下项目有多个匹配结果
         service_name=[]
         model=[]
@@ -79,22 +112,22 @@ class Data():
         info['je']=money
         info['shuilv']=rate
         info['shuie']=tax
-        info['goodsamount']=t.xpath('//span[contains(@id,"je_dzfp")]/text()')[0]
-        info['taxamount']=t.xpath('//span[contains(@id,"se_dzfp")]/text()')[0]
-        info['SUMAMOUNT']=t.xpath('//span[contains(@id,"jshjdx_dzfp")]/text()')[0]
-        info['sumamount']=t.xpath('//span[contains(@id,"jshjxx_dzfp")]/text()')[0]
-        info['xfMc']=t.xpath('//span[contains(@id,"xfmc_dzfp")]/text()')[0]
+#         info['goodsamount']=t.xpath('//span[contains(@id,"je_dzfp")]/text()')[0]
+#         info['taxamount']=t.xpath('//span[contains(@id,"se_dzfp")]/text()')[0]
+#         info['SUMAMOUNT']=t.xpath('//span[contains(@id,"jshjdx_dzfp")]/text()')[0]
+#         info['sumamount']=t.xpath('//span[contains(@id,"jshjxx_dzfp")]/text()')[0]
+#         info['xfMc']=t.xpath('//span[contains(@id,"xfmc_dzfp")]/text()')[0]
         # 大概率为空
         info['remark']=t.xpath('//span[contains(@id,"bz_dzfp")]/p/text()')
         try:
             info['remark']=info['remark'][0]
         except:
             info['remark']=' '
-        info['xfNsrsbh']=t.xpath('//span[contains(@id,"xfsbh_dzfp")]/text()')[0]
-        info['xfContact']=t.xpath('//span[contains(@id,"xfdzdh_dzfp")]/text()')[0]
-        info['xfBank']=t.xpath('//span[contains(@id,"xfyhzh_dzfp")]/text()')[0]
+#         info['xfNsrsbh']=t.xpath('//span[contains(@id,"xfsbh_dzfp")]/text()')[0]
+#         info['xfContact']=t.xpath('//span[contains(@id,"xfdzdh_dzfp")]/text()')[0]
+#         info['xfBank']=t.xpath('//span[contains(@id,"xfyhzh_dzfp")]/text()')[0]
         self.info=info
-
+        
     #将html文件写出
     def write(self):
         with open(r'C:\Users\Administrator\Desktop\invoice\API\Mould'+'\\'+self.info['fpdm']+self.info['fphm']+'.html','w',encoding='utf-8') as f:
